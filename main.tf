@@ -12,7 +12,7 @@ terraform {
 }
 
 resource "aws_s3_bucket" "bucket_name" {
-  bucket   = var.bucket_name
+  bucket   = "${var.bucket_name}-${terraform.workspace}"
 }
 
 resource "aws_s3_bucket_acl" "acl" {
@@ -43,6 +43,6 @@ data "aws_iam_policy_document" "allow_access_document" {
       "s3:ListBucket",
     ]
 
-    resources = ["arn:aws:s3:::${var.bucket_name}"]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.bucket_name.bucket}"]
  }
 }
